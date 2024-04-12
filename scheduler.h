@@ -7,7 +7,6 @@
 #define MAX_PRIORITY 4
 #define MIN_PRIORITY 1
 
-
 typedef struct task
 {
     void (*taskFunc)(void);
@@ -19,8 +18,12 @@ typedef struct task
 
 task task_list[MAX_TASKS];
 
+typedef task* queue[MAX_TASKS];
 
+void initScheduler();
 void make_scheduler();
 void addTask(void* func, int priority, int stack_size);
+void addToQueue(task* t, queue* q);
+
 void runScheduler();
 void isr();

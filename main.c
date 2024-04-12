@@ -7,9 +7,13 @@
 
 int main()
 {
+
+    // Initalize the tasks
+    initScheduler();
+
     // Add tasks 
-    addTask(&task1, 1, 4098);
-    addTask(&task2, 1, 4098);
+    addTask(&task1, 4, 4098);
+    addTask(&task2, 3, 4098);
 
     // Start the scheduler
     runScheduler();

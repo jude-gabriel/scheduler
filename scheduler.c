@@ -12,6 +12,10 @@
 ucontext_t scheduler_context;
 char stack[16000];
 ucontext_t* current_context;
+queue p_four;
+queue p_three;
+queue p_two;
+queue p_one;
 
 
 void initScheduler()
@@ -24,6 +28,10 @@ void initScheduler()
         {
             task_list[i].taskFunc = NULL;
             task_list[i].taskPriority = 0;
+            p_four[i] = NULL;
+            p_three[i] = NULL;
+            p_two[i] = NULL;
+            p_one[i] = NULL;
         }
         didInit = true;
     }
@@ -47,6 +55,7 @@ void addTask(void* func, int priority, int stackSize)
     {
         if(task_list[i].taskFunc == NULL && task_list[i].taskPriority == 0)
         {
+            // Make the context
             task_list[i].taskFunc = func;
             task_list[i].taskPriority = priority;
             if(getcontext(&task_list[i].context) == -1)
@@ -57,8 +66,62 @@ void addTask(void* func, int priority, int stackSize)
             task_list[i].context.uc_stack.ss_size = sizeof(task_list[i].stack);
             task_list[i].context.uc_link = &scheduler_context;
             makecontext(&(task_list[i].context), task_list[i].taskFunc, 0);
+
+            // Add the context to the correct queue
+            switch(priority)
+            {
+                case 4:
+                {
+                    addToQueue(&(task_list[i]), &p_four);
+                    break;
+                }
+                case 3:
+                {
+                    addToQueue(&(task_list[i]), &p_three);
+                    break;
+                }
+                case 2:
+                {
+                    addToQueue(&(task_list[i]), &p_two);
+                    break;
+                }
+                case 1:
+                {
+                    addToQueue(&(task_list[i]), &p_one);
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+            }
             break;
         }
+    }
+}
+
+void addToQueue(task* t, queue* q)
+{
+    int j = 0;
+    for(int i = 0; i < MAX_TASKS; i++)
+    {
+        if((*q)[i] == NULL)
+        {
+            (*q)[i] = t;
+            printf("%d\n", i);
+            printf("%d\n", t->taskPriority);
+            j = i;
+            break;
+        }
+    }
+
+    if(p_four[j] == NULL)
+    {
+        printf("errro\n");
+    }
+    else
+    {
+        printf("good\n");
     }
 }
 
@@ -83,8 +146,6 @@ void make_scheduler()
 
 void runScheduler()
 {
-    // Initalize the tasks
-    initScheduler();
 
     // Make the scheduler
     make_scheduler();
@@ -94,41 +155,57 @@ void runScheduler()
 
     while(1)
     {
-        for(int i = 0; i < 2; i++)
+        // Run level four tasks 
+        int i = 0; 
+        while(p_four[i] != NULL)
         {
-            // Kick the alarm
-            alarm(1); 
-
-            printf("hit\n");
-
-            // Set the current context to the current task
-            current_context = &(task_list[i].context);
-
-            printf("hit2\n");
-
-            // TODO: Call this from the schedulig algorithm - Swap the context
-            // This needs to be put in a wrapper funciton so we can see if the function has finished or not
-            // Create a third context 
-            if(&(task_list[i].context) == NULL)
-            {
-                perror("context");
-            }
-
-            if(swapcontext(&scheduler_context, &(task_list[i].context)) == -1)
+            alarm(4);
+            current_context = &(p_four[i]->context);
+            printf("\n\n\n\n%d\n", (p_four[i]->taskPriority));
+            if(swapcontext(&scheduler_context, current_context) == -1)
             {
                 perror("Swap context");
             }
+            i++;
+        }
 
-            printf("hit3\n");
-            
-            alarm(0);
-
-            // TODO: Replace this with the scheduling algorithm
-            for(int j = 0; j < 1000; j++)
+        // Run level three tasks 
+        i = 0; 
+        while(p_three[i] != NULL)
+        {
+            alarm(3);
+            current_context = &(p_three[i]->context);
+            if(swapcontext(&scheduler_context, current_context) == -1)
             {
-                printf("HERE: %d\n", j);
+                perror("Swap context");
             }
-            printf("resetting\n");
+            i++;
+        }
+
+        // Run level two tasks 
+        i = 0; 
+        while(p_two[i] != NULL)
+        {
+            alarm(2);
+            current_context = &(p_two[i]->context);
+            if(swapcontext(&scheduler_context, current_context) == -1)
+            {
+                perror("Swap context");
+            }
+            i++;
+        }
+
+        // Run level one tasks 
+        i = 0; 
+        while(p_one[i] != NULL)
+        {
+            alarm(1);
+            current_context = &(p_one[i]->context);
+            if(swapcontext(&scheduler_context, current_context) == -1)
+            {
+                perror("Swap context");
+            }
+            i++;
         }
     }
 }
