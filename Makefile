@@ -1,5 +1,5 @@
-scheduler: main.c scheduler.c tasks.c
-	gcc -o scheduler main.c scheduler.c tasks.c -lrt
+scheduler: main.c scheduler.c tasks.c tests.c
+	gcc -o scheduler main.c scheduler.c tasks.c tests.c -lrt
 
 clean: 
 	/bin/rm -f *.o scheduler

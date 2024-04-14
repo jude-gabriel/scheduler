@@ -102,26 +102,13 @@ void addTask(void* func, int priority, int stackSize)
 
 void addToQueue(task* t, queue* q)
 {
-    int j = 0;
     for(int i = 0; i < MAX_TASKS; i++)
     {
         if((*q)[i] == NULL)
         {
             (*q)[i] = t;
-            printf("%d\n", i);
-            printf("%d\n", t->taskPriority);
-            j = i;
             break;
         }
-    }
-
-    if(p_four[j] == NULL)
-    {
-        printf("errro\n");
-    }
-    else
-    {
-        printf("good\n");
     }
 }
 

@@ -15,10 +15,17 @@ typedef struct task
     ucontext_t context;
 } task;
 
-
-task task_list[MAX_TASKS];
-
 typedef task* queue[MAX_TASKS];
+
+// Global vars
+task task_list[MAX_TASKS];
+extern ucontext_t scheduler_context;
+extern char stack[16000];
+extern ucontext_t* current_context;
+extern queue p_four;
+extern queue p_three;
+extern queue p_two;
+extern queue p_one;
 
 void initScheduler();
 void make_scheduler();
