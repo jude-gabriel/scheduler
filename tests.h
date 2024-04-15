@@ -1,5 +1,7 @@
 # pragma once
 
+// #define TEST_SUITE
+
 // Test Suite functions
 void test_suite();
 void add_tasks();

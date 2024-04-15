@@ -6,8 +6,6 @@
 #include "scheduler.h"
 
 
-// #define TEST_SUITE
-
 int main()
 {
 
