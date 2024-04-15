@@ -9,7 +9,6 @@
 
 int task_test_global = 0;
 int isr_hit = 0;
-
 ucontext_t test_context;
 
 void test_suite()

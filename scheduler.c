@@ -9,6 +9,7 @@
 #include "scheduler.h"
 
 // Global vars
+task task_list[MAX_TASKS];
 ucontext_t scheduler_context;
 char stack[16000];
 ucontext_t* current_context;
