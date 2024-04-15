@@ -26,7 +26,7 @@ int main()
     addTask(&switch_task, 4, 4098);
     addTask(&led_red_task, 2, 4098);
     addTask(&led_green_task, 1, 4098);
-    addTask(&servo_task, 3, 4098);
+    addTask(&led_yellow_task, 3, 4098);
 
     // Start the scheduler
     runScheduler();

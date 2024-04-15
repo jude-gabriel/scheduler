@@ -1,9 +1,9 @@
 #pragma once
 
-#define SWITCH_PIN 31
-#define RED_PIN 33
-#define GREEN_PIN 35
-#define SERVO_PIN 37
+#define SWITCH_PIN 22
+#define RED_PIN 23
+#define GREEN_PIN 24
+#define YELLOW_PIN 25
 
 typedef enum STATE
 {
@@ -20,5 +20,5 @@ void set_pins();
 void switch_task();
 void led_red_task();
 void led_green_task();
-void servo_task();
+void led_yellow_task();
 

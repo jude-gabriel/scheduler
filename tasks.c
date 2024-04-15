@@ -3,7 +3,7 @@
 #include <wiringPi.h> 
 #include "tasks.h"
 
-STATE sys_state = IDLE;
+STATE sys_state = INIT;
 
 void task1()
 {
@@ -32,7 +32,7 @@ void set_pins()
     pinMode(SWITCH_PIN, INPUT);
     pinMode(RED_PIN, OUTPUT);
     pinMode(GREEN_PIN, OUTPUT);
-    pinMode(SERVO_PIN, OUTPUT);
+    pinMode(YELLOW_PIN, OUTPUT);
 }
 
 void switch_task()
@@ -42,91 +42,105 @@ void switch_task()
         if(digitalRead(SWITCH_PIN) == HIGH)
         {
             sys_state = RUNNING;
+            printf("RUNNING\n");
         }
         else
         {
-            sys_state = RUNNING;
+            sys_state = STOPPED;
+            printf("STOPPED\n");
         }
     }
 }
 
 void led_red_task()
 {
-    switch(sys_state)
+    while(1)
     {
-        case INIT:
+        switch(sys_state)
         {
-            digitalWrite(RED_PIN, HIGH);
-            break;
-        }
-        case RUNNING:
-        {
-            digitalWrite(RED_PIN, HIGH);
-            break;
-        }
-        case STOPPED:
-        {
-            digitalWrite(RED_PIN, LOW);
-            break;
-        }
-        default:
-        {
-            digitalWrite(RED_PIN, LOW);
-            break;
+            case INIT:
+            {
+                digitalWrite(RED_PIN, HIGH);
+                break;
+            }
+            case RUNNING:
+            {
+                digitalWrite(RED_PIN, HIGH);
+                printf("writing high\n");
+                break;
+            }
+            case STOPPED:
+            {
+                digitalWrite(RED_PIN, LOW);
+                break;
+            }
+            default:
+            {
+                digitalWrite(RED_PIN, LOW);
+                break;
+            }
         }
     }
+    
 }
 
 void led_green_task()
 {
-    switch(sys_state)
+    while(1)
     {
-        case INIT:
+        switch(sys_state)
         {
-            digitalWrite(GREEN_PIN, HIGH);
-            break;
-        }
-        case RUNNING:
-        {
-            digitalWrite(GREEN_PIN, LOW);
-            break;
-        }
-        case STOPPED:
-        {
-            digitalWrite(GREEN_PIN, HIGH);
-            break;
-        }
-        default:
-        {
-            digitalWrite(RED_PIN, LOW);
-            break;
+            case INIT:
+            {
+                digitalWrite(GREEN_PIN, HIGH);
+                break;
+            }
+            case RUNNING:
+            {
+                digitalWrite(GREEN_PIN, LOW);
+                break;
+            }
+            case STOPPED:
+            {
+                digitalWrite(GREEN_PIN, HIGH);
+                break;
+            }
+            default:
+            {
+                digitalWrite(RED_PIN, LOW);
+                break;
+            }
         }
     }
 }
 
-void servo_task()
+void led_yellow_task()
 {
-    switch(sys_state)
+    while(1)
     {
-        case INIT:
+        switch(sys_state)
         {
-            digitalWrite(SERVO_PIN, LOW);
-            break;
-        }
-        case RUNNING:
-        {
-            digitalWrite(SERVO_PIN, HIGH);
-            break;
-        }
-        case STOPPED:
-        {
-            digitalWrite(SERVO_PIN, LOW);
-            break;
-        }
-        default:
-        {
-            digitalWrite(SERVO_PIN, LOW);
-            break;
+            case INIT:
+            {
+                digitalWrite(YELLOW_PIN, LOW);
+                break;
+            }
+            case RUNNING:
+            {
+                digitalWrite(YELLOW_PIN, HIGH);
+                delay(500);
+                break;
+            }
+            case STOPPED:
+            {
+                digitalWrite(YELLOW_PIN, LOW);
+                break;
+            }
+            default:
+            {
+                digitalWrite(YELLOW_PIN, LOW);
+                break;
+            }
         }
     }
 }
