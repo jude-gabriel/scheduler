@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <wiringPi.h> 
 #include "tasks.h"
+
+#ifdef RPI_TESTS
+#include <wiringPi.h> 
+#endif
 
 STATE sys_state = INIT;
 
@@ -28,15 +31,18 @@ void task2()
 
 void set_pins()
 {
+#ifdef RPI_TESTS
     wiringPiSetup();
     pinMode(SWITCH_PIN, INPUT);
     pinMode(RED_PIN, OUTPUT);
     pinMode(GREEN_PIN, OUTPUT);
     pinMode(YELLOW_PIN, OUTPUT);
+#endif
 }
 
 void switch_task()
 {
+#ifdef RPI_TESTS
     while(1)
     {
         if(digitalRead(SWITCH_PIN) == HIGH)
@@ -50,10 +56,12 @@ void switch_task()
             printf("STOPPED\n");
         }
     }
+#endif
 }
 
 void led_red_task()
 {
+#ifdef RPI_TESTS
     while(1)
     {
         switch(sys_state)
@@ -81,11 +89,12 @@ void led_red_task()
             }
         }
     }
-    
+#endif
 }
 
 void led_green_task()
 {
+#ifdef RPI_TESTS
     while(1)
     {
         switch(sys_state)
@@ -112,10 +121,12 @@ void led_green_task()
             }
         }
     }
+#endif
 }
 
 void led_yellow_task()
 {
+#ifdef RPI_TESTS
     while(1)
     {
         switch(sys_state)
@@ -143,4 +154,5 @@ void led_yellow_task()
             }
         }
     }
+#endif
 }

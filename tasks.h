@@ -5,6 +5,9 @@
 #define GREEN_PIN 24
 #define YELLOW_PIN 25
 
+// #define RPI_TESTS
+#define WIN_TESTS
+
 typedef enum STATE
 {
     INIT,
