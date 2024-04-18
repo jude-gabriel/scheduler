@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "tasks.h"
+#include "scheduler.h"
 
 #ifdef RPI_TESTS
 #include <wiringPi.h> 
@@ -14,16 +15,22 @@ void task1()
     while(1)
     {
         printf("Task 1: %d\n", i);
+      
         i++;
+        if(i > 100000){
+           set_delete();
+        }
     }
 }
 
 void task2()
 {
     int i = 0;
+    
     while(1)
     {
         printf("Task 2: %d\n", i);
+        setIncreaseP();
         i++;
     }
     return;
