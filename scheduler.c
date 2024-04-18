@@ -143,6 +143,7 @@ sets the delete value to one to delete the task on the next iteration
 void set_delete()
 {
     delete = 1;
+    task_yield();
 }
 
 /*
