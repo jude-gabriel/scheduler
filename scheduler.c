@@ -140,6 +140,7 @@ sets the delete value to one to delete the task on the next iteration
 */
 void set_delete()
 {
+    alarm(0);
     delete = 1;
     task_yield();
 }
