@@ -20,7 +20,6 @@ queue p_four;
 queue p_three;
 queue p_two;
 queue p_one;
-int emptyTaskList[MAX_TASKS];
 
 void initScheduler()
 {
@@ -58,7 +57,6 @@ void addTask(void *func, int priority, int stackSize)
     // Find room for the task
     for (int i = 0; i < MAX_TASKS; i++)
     {
-        emptyTaskList[i] = -1;
         if (task_list[i].taskFunc == NULL && task_list[i].taskPriority == 0)
         {
             // Make the context
@@ -276,15 +274,6 @@ void deleteFromList(task t)
     task_list[deleteX].context.uc_stack.ss_sp = NULL;
     task_list[deleteX].context.uc_stack.ss_size = 0;
     task_list[deleteX].context.uc_link = NULL;
-
-    // Add the task to the empty list so that we know the spot is free
-    for (int i = 0; i < MAX_TASKS; i++)
-    {
-        if (emptyTaskList[i] != -1)
-        {
-            emptyTaskList[i] = deleteX;
-        }
-    }
 }
 
 void runScheduler()
