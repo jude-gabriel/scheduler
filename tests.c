@@ -120,6 +120,17 @@ void make_test_suite_context()
     makecontext(&scheduler_context, test_suite, 0);
 }
 
+void test_task_deletion(){
+
+}
+
+void test_task_yield(){
+    task_test_global = 0;
+    make_test_suite_context();
+    task_5();
+
+}
+
 void test_isr()
 {
     signal(SIGALRM, isr_test_func);
@@ -159,4 +170,11 @@ void task_4()
     printf("Task 4 Running\n");
     task_test_global = 4;
     swapcontext(current_context, &test_context);
+}
+
+void task_5(){
+    printf("Task 5 Running\n");
+    task_yield();
+    printf("Yield Fail\n");
+    return (void) -1;
 }

@@ -12,6 +12,7 @@ typedef struct task
     void (*taskFunc)(void);
     int taskPriority;
     char stack[16000];
+    int taskid;
     ucontext_t context;
 } task;
 
@@ -26,11 +27,18 @@ extern queue p_four;
 extern queue p_three;
 extern queue p_two;
 extern queue p_one;
+extern int emptyTaskList[MAX_TASKS];
 
 void initScheduler();
 void make_scheduler();
 void addTask(void* func, int priority, int stack_size);
 void addToQueue(task* t, queue* q);
+void set_delete();
+void shift_tasks(queue *q, int from);
+void task_yield();
+void deleteFromList(task t);
+void increasePriority(task *t);
+void setIncreaseP();
 
 void runScheduler();
 void isr();
