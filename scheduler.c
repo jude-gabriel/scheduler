@@ -20,7 +20,6 @@ queue p_four;
 queue p_three;
 queue p_two;
 queue p_one;
-int emptyTaskList[MAX_TASKS];
 
 void initScheduler()
 {
@@ -58,7 +57,6 @@ void addTask(void *func, int priority, int stackSize)
     // Find room for the task
     for (int i = 0; i < MAX_TASKS; i++)
     {
-        emptyTaskList[i] = -1;
         if (task_list[i].taskFunc == NULL && task_list[i].taskPriority == 0)
         {
             // Make the context
@@ -120,7 +118,6 @@ void addToQueue(task *t, queue *q)
 
 void isr()
 {
-    printf("callback");
     // Timer expired - Swap the context back to the scheduler
     if (swapcontext(current_context, &scheduler_context) == -1)
     {
@@ -142,7 +139,9 @@ sets the delete value to one to delete the task on the next iteration
 */
 void set_delete()
 {
+    alarm(0);
     delete = 1;
+    task_yield();
 }
 
 /*
@@ -283,15 +282,6 @@ void deleteFromList(task t)
     task_list[deleteX].context.uc_stack.ss_sp = NULL;
     task_list[deleteX].context.uc_stack.ss_size = 0;
     task_list[deleteX].context.uc_link = NULL;
-
-    // Add the task to the empty list so that we know the spot is free
-    for (int i = 0; i < MAX_TASKS; i++)
-    {
-        if (emptyTaskList[i] != -1)
-        {
-            emptyTaskList[i] = deleteX;
-        }
-    }
 }
 
 void runScheduler()
@@ -311,7 +301,6 @@ void runScheduler()
         {
             alarm(4);
             current_context = &(p_four[i]->context);
-            printf("\n\n\n\n%d\n", (p_four[i]->taskPriority));
             if (swapcontext(&scheduler_context, current_context) == -1)
             {
                 perror("Swap context");
@@ -342,7 +331,6 @@ void runScheduler()
             }
             if (delete && !increase)
             {
-                printf("This happended\n");
                 deleteFromList(*p_three[i]);
                 shift_task(&p_three, i);
                 i--;

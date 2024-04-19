@@ -9,12 +9,24 @@
 
 STATE sys_state = INIT;
 
+
+
 void task1()
 {
     int i = 0;
     while(1)
     {
         printf("Task 1: %d\n", i);
+        i++;
+    }
+}
+
+void task2()
+{
+    int i = 0;
+    while(1)
+    {
+        printf("Task 2: %d\n", i);
       
         i++;
         if(i > 100000){
@@ -23,18 +35,47 @@ void task1()
     }
 }
 
-void task2()
+void task3()
 {
     int i = 0;
     
     while(1)
     {
-        printf("Task 2: %d\n", i);
-        setIncreaseP();
+        printf("Task 3: %d\n", i);
+        if(i > 10000)
+        {
+            setIncreaseP();
+        }
         i++;
     }
     return;
 }
+
+void task4()
+{
+    int i = 0;    
+    while(1)
+    {
+        printf("Task 4: %d\n", i);
+        if(i < 1)
+            task_yield();
+        i++;
+    }
+    return;
+}
+
+void task5()
+{
+    int i = 0;    
+    while(1)
+    {
+        printf("Task 5: %d\n", i);
+        i++;
+    }
+    return;
+}
+
+
 
 void set_pins()
 {
