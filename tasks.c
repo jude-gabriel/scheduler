@@ -42,8 +42,10 @@ void task3()
     while(1)
     {
         printf("Task 3: %d\n", i);
-        if(i % 10000 == 0)
+        if(i > 10000)
+        {
             setIncreaseP();
+        }
         i++;
     }
     return;

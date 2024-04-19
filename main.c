@@ -18,11 +18,11 @@ int main()
 
 #ifdef WIN_TESTS
     // Add tasks 
-    addTask(&task1, 4, 4098);
-    addTask(&task2, 3, 4098);
+    // addTask(&task1, 4, 4098);
+    // addTask(&task2, 3, 4098);
     addTask(&task3, 1, 4098);
-    addTask(&task4, 4, 4098);
-    addTask(&task5, 1, 4098);
+    // addTask(&task4, 4, 4098);
+    // addTask(&task5, 1, 4098);
 
 #endif
 

@@ -118,7 +118,6 @@ void addToQueue(task *t, queue *q)
 
 void isr()
 {
-    printf("callback");
     // Timer expired - Swap the context back to the scheduler
     if (swapcontext(current_context, &scheduler_context) == -1)
     {
@@ -188,55 +187,54 @@ void increasePriority(task *t)
     // determine what queue the task is in and change its priority to be accurate
     switch (t->taskPriority)
     {
-    case 4:
-    {
-
-        printf("No higher priority\n");
-        break;
-    }
-    case 3:
-    {
-        addToQueue(t, &p_four);
-        for (int i = 0; i < MAX_TASKS; i++)
+        case 4:
         {
-            if (p_three[i]->taskid = t->taskid)
-            {
-                shift_task(&p_three, i);
-                break;
-            }
+            printf("No higher priority\n");
+            break;
         }
-        break;
-    }
-    case 2:
-    {
-        addToQueue(t, &p_three);
-        for (int i = 0; i < MAX_TASKS; i++)
+        case 3:
         {
-            if (p_two[i]->taskid = t->taskid)
+            addToQueue(t, &p_four);
+            for (int i = 0; i < MAX_TASKS; i++)
             {
-                shift_task(&p_two, i);
-                break;
+                if (p_three[i]->taskid == t->taskid)
+                {
+                    shift_task(&p_three, i);
+                    break;
+                }
             }
+            break;
         }
-        break;
-    }
-    case 1:
-    {
-        addToQueue(t, &p_two);
-        for (int i = 0; i < MAX_TASKS; i++)
+        case 2:
         {
-            if (p_one[i]->taskid = t->taskid)
+            addToQueue(t, &p_three);
+            for (int i = 0; i < MAX_TASKS; i++)
             {
-                shift_task(&p_one, i);
-                break;
+                if (p_two[i]->taskid == t->taskid)
+                {
+                    shift_task(&p_two, i);
+                    break;
+                }
             }
+            break;
         }
-        break;
-    }
-    default:
-    {
-        break;
-    }
+        case 1:
+        {
+            addToQueue(t, &p_two);
+            for (int i = 0; i < MAX_TASKS; i++)
+            {
+                if (p_one[i]->taskid == t->taskid)
+                {
+                    shift_task(&p_one, i);
+                    break;
+                }
+            }
+            break;
+        }
+        default:
+        {
+            break;
+        }
     }
 }
 
@@ -294,7 +292,6 @@ void runScheduler()
         {
             alarm(4);
             current_context = &(p_four[i]->context);
-            printf("\n\n\n\n%d\n", (p_four[i]->taskPriority));
             if (swapcontext(&scheduler_context, current_context) == -1)
             {
                 perror("Swap context");
@@ -325,7 +322,6 @@ void runScheduler()
             }
             if (delete)
             {
-                printf("This happended\n");
                 deleteFromList(*p_three[i]);
                 shift_task(&p_three, i);
                 i--;
