@@ -185,6 +185,9 @@ void task_yield()
 */
 void increasePriority(task *t)
 {
+    if(t == NULL){
+        return;
+    }
     // determine what queue the task is in and change its priority to be accurate
     switch (t->taskPriority)
     {
@@ -197,6 +200,7 @@ void increasePriority(task *t)
     case 3:
     {
         addToQueue(t, &p_four);
+        t->taskPriority = 4;
         for (int i = 0; i < MAX_TASKS; i++)
         {
             if (p_three[i]->taskid = t->taskid)
@@ -210,6 +214,7 @@ void increasePriority(task *t)
     case 2:
     {
         addToQueue(t, &p_three);
+        t->taskPriority = 3;
         for (int i = 0; i < MAX_TASKS; i++)
         {
             if (p_two[i]->taskid = t->taskid)
@@ -223,6 +228,7 @@ void increasePriority(task *t)
     case 1:
     {
         addToQueue(t, &p_two);
+        t->taskPriority = 2;
         for (int i = 0; i < MAX_TASKS; i++)
         {
             if (p_one[i]->taskid = t->taskid)
@@ -260,6 +266,7 @@ void deleteFromList(task t)
     {
         if (t.taskid == task_list[i].taskid)
         {
+
             deleteX = i;
             break;
         }
@@ -272,6 +279,7 @@ void deleteFromList(task t)
     task_list[deleteX].taskFunc = NULL;
     task_list[deleteX].taskid = task_list[deleteX + 1].taskid;
     task_list[deleteX].taskPriority = 0;
+    printf("%d %d\n", deleteX, task_list[deleteX].taskPriority);
     task_list[deleteX].context.uc_stack.ss_sp = NULL;
     task_list[deleteX].context.uc_stack.ss_size = 0;
     task_list[deleteX].context.uc_link = NULL;
@@ -332,7 +340,7 @@ void runScheduler()
             {
                 perror("Swap context");
             }
-            if (delete)
+            if (delete && !increase)
             {
                 printf("This happended\n");
                 deleteFromList(*p_three[i]);
@@ -343,6 +351,7 @@ void runScheduler()
             if (increase)
             {
                 increasePriority(p_three[i]);
+                i--;
                 increase = 0;
             }
             i++;
@@ -357,16 +366,19 @@ void runScheduler()
             {
                 perror("Swap context");
             }
-            if (delete)
+            if (delete && !increase)
             {
                 deleteFromList(*p_two[i]);
                 shift_task(&p_two, i);
+
                 i--;
+
                 delete = 0;
             }
             if (increase)
             {
                 increasePriority(p_two[i]);
+                i--;
                 increase = 0;
             }
             i++;
@@ -382,16 +394,18 @@ void runScheduler()
             {
                 perror("Swap context");
             }
-            if (delete)
+            if (delete && !increase)
             {
                 deleteFromList(*p_one[i]);
                 shift_task(&p_one, i);
                 i--;
+
                 delete = 0;
             }
             if (increase)
             {
                 increasePriority(p_one[i]);
+                i--;
                 increase = 0;
             }
             i++;
