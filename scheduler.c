@@ -202,7 +202,7 @@ void increasePriority(task *t)
         t->taskPriority = 4;
         for (int i = 0; i < MAX_TASKS; i++)
         {
-            if (p_three[i]->taskid = t->taskid)
+            if (p_three[i]->taskid == t->taskid)
             {
                 shift_task(&p_three, i);
                 break;
@@ -216,7 +216,7 @@ void increasePriority(task *t)
         t->taskPriority = 3;
         for (int i = 0; i < MAX_TASKS; i++)
         {
-            if (p_two[i]->taskid = t->taskid)
+            if (p_two[i]->taskid == t->taskid)
             {
                 shift_task(&p_two, i);
                 break;
@@ -230,7 +230,7 @@ void increasePriority(task *t)
         t->taskPriority = 2;
         for (int i = 0; i < MAX_TASKS; i++)
         {
-            if (p_one[i]->taskid = t->taskid)
+            if (p_one[i]->taskid == t->taskid)
             {
                 shift_task(&p_one, i);
                 break;
