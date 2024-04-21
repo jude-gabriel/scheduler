@@ -190,58 +190,58 @@ void increasePriority(task *t)
     // determine what queue the task is in and change its priority to be accurate
     switch (t->taskPriority)
     {
-    case 4:
-    {
+        case 4:
+        {
 
-        printf("No higher priority\n");
-        break;
-    }
-    case 3:
-    {
-        addToQueue(t, &p_four);
-        t->taskPriority = 4;
-        for (int i = 0; i < MAX_TASKS; i++)
-        {
-            if (p_three[i]->taskid = t->taskid)
-            {
-                shift_task(&p_three, i);
-                break;
-            }
+            printf("No higher priority\n");
+            break;
         }
-        break;
-    }
-    case 2:
-    {
-        addToQueue(t, &p_three);
-        t->taskPriority = 3;
-        for (int i = 0; i < MAX_TASKS; i++)
+        case 3:
         {
-            if (p_two[i]->taskid = t->taskid)
+            addToQueue(t, &p_four);
+            t->taskPriority = 4;
+            for (int i = 0; i < MAX_TASKS; i++)
             {
-                shift_task(&p_two, i);
-                break;
+                if (p_three[i]->taskid == t->taskid)
+                {
+                    shift_task(&p_three, i);
+                    break;
+                }
             }
+            break;
         }
-        break;
-    }
-    case 1:
-    {
-        addToQueue(t, &p_two);
-        t->taskPriority = 2;
-        for (int i = 0; i < MAX_TASKS; i++)
+        case 2:
         {
-            if (p_one[i]->taskid = t->taskid)
+            addToQueue(t, &p_three);
+            t->taskPriority = 3;
+            for (int i = 0; i < MAX_TASKS; i++)
             {
-                shift_task(&p_one, i);
-                break;
+                if (p_two[i]->taskid == t->taskid)
+                {
+                    shift_task(&p_two, i);
+                    break;
+                }
             }
+            break;
         }
-        break;
-    }
-    default:
-    {
-        break;
-    }
+        case 1:
+        {
+            addToQueue(t, &p_two);
+            t->taskPriority = 2;
+            for (int i = 0; i < MAX_TASKS; i++)
+            {
+                if (p_one[i]->taskid == t->taskid)
+                {
+                    shift_task(&p_one, i);
+                    break;
+                }
+            }
+            break;
+        }
+        default:
+        {
+            break;
+        }
     }
 }
 
@@ -278,7 +278,6 @@ void deleteFromList(task t)
     task_list[deleteX].taskFunc = NULL;
     task_list[deleteX].taskid = task_list[deleteX + 1].taskid;
     task_list[deleteX].taskPriority = 0;
-    printf("%d %d\n", deleteX, task_list[deleteX].taskPriority);
     task_list[deleteX].context.uc_stack.ss_sp = NULL;
     task_list[deleteX].context.uc_stack.ss_size = 0;
     task_list[deleteX].context.uc_link = NULL;
@@ -286,7 +285,6 @@ void deleteFromList(task t)
 
 void runScheduler()
 {
-
     // Make the scheduler
     make_scheduler();
 
@@ -344,6 +342,7 @@ void runScheduler()
             }
             i++;
         }
+        
         // Run level two tasks
         i = 0;
         while (p_two[i] != NULL)
@@ -358,9 +357,7 @@ void runScheduler()
             {
                 deleteFromList(*p_two[i]);
                 shift_task(&p_two, i);
-
                 i--;
-
                 delete = 0;
             }
             if (increase)
@@ -387,7 +384,6 @@ void runScheduler()
                 deleteFromList(*p_one[i]);
                 shift_task(&p_one, i);
                 i--;
-
                 delete = 0;
             }
             if (increase)

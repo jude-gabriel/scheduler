@@ -1,6 +1,6 @@
 # pragma once
 
-#define TEST_SUITE
+// #define TEST_SUITE
 
 // Test Suite functions
 void test_suite();

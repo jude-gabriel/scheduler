@@ -25,11 +25,11 @@ void test_suite()
 
     //Test Deleting a task
     test_delete();
+
+    // Test increasing priority
     test_priority_increase();
 
     printf("Test suite done\n");
-   // sleep(20);
-   
 }
 
 void add_tasks()
@@ -156,7 +156,6 @@ void test_priority_increase()
                 j++;
             }
             i--;
-
         }
         i++;
     }
@@ -172,8 +171,6 @@ void test_priority_increase()
     else{
         printf("Failed increasing priority\n");
     }
-   
-
 }
 
 void test_task_yield()
@@ -260,8 +257,7 @@ void test_isr()
 {
     signal(SIGALRM, isr_test_func);
     alarm(2);
-    while (!isr_hit)
-        ;
+    while (!isr_hit);
     printf("ISR callback passes\n");
 }
 
@@ -311,6 +307,7 @@ void task_6()
     printf("Task 6 Running\n");
     set_delete();
 }
+
 void task_7()
 {
     printf("Task 7 Running\n");

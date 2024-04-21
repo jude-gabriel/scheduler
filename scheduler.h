@@ -29,7 +29,6 @@ extern queue p_four;
 extern queue p_three;
 extern queue p_two;
 extern queue p_one;
-extern int emptyTaskList[MAX_TASKS];
 
 void initScheduler();
 void make_scheduler();
@@ -41,6 +40,5 @@ void task_yield();
 void deleteFromList(task t);
 void increasePriority(task *t);
 void setIncreaseP();
-
 void runScheduler();
 void isr();

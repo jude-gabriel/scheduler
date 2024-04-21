@@ -29,7 +29,7 @@ void task2()
         printf("Task 2: %d\n", i);
       
         i++;
-        if(i > 100000){
+        if(i > 10000){
            set_delete();
         }
     }
@@ -38,7 +38,6 @@ void task2()
 void task3()
 {
     int i = 0;
-    
     while(1)
     {
         printf("Task 3: %d\n", i);
@@ -57,7 +56,7 @@ void task4()
     while(1)
     {
         printf("Task 4: %d\n", i);
-        if(i < 1)
+        if(i < 5)
             task_yield();
         i++;
     }
@@ -74,8 +73,6 @@ void task5()
     }
     return;
 }
-
-
 
 void set_pins()
 {
